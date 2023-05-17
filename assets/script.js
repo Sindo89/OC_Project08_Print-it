@@ -18,6 +18,7 @@ const slides = [
   },
 ];
 const bannerImg = document.querySelector(".banner-img");
+const banner = document.querySelector("#banner");
 const bannerTagLine = document.querySelector("#banner p");
 const leftArrow = document.querySelector(".arrow_left");
 const rightArrow = document.querySelector(".arrow_right");
@@ -75,3 +76,49 @@ function updateBanner() {
   bannerTagLine.innerHTML = slides[currentSlideIndex].tagLine;
   activeDot();
 }
+
+// BONUS
+
+let carouselInterval;
+
+// BONUS: CHANGER DE SLIDE TOUTES LES 5 SECONDES
+carouselInterval = setInterval(function () {
+  currentSlideIndex++;
+  if (currentSlideIndex > slides.length - 1) {
+    currentSlideIndex = 0;
+  }
+  updateBanner();
+}, 5000);
+
+// BONUS: ARRETER LE CARROUSEL AU SURVOL
+banner.addEventListener("mouseover", function () {
+  clearInterval(carouselInterval);
+});
+
+// BONUS: RELANCER LE CARROUSEL AU SORTIE DU SURVOL
+banner.addEventListener("mouseout", function () {
+  carouselInterval = setInterval(function () {
+    currentSlideIndex++;
+    if (currentSlideIndex > slides.length - 1) {
+      currentSlideIndex = 0;
+    }
+    updateBanner();
+  }, 5000);
+});
+
+//BONUS: CHANGER DE SLIDE AVEC LES FLECHES DU CLAVIER
+document.addEventListener("keydown", function (e) {
+  if (e.key === "ArrowLeft") {
+    currentSlideIndex--;
+    if (currentSlideIndex < 0) {
+      currentSlideIndex = slides.length - 1;
+    }
+    updateBanner();
+  } else if (e.key === "ArrowRight") {
+    currentSlideIndex++;
+    if (currentSlideIndex > slides.length - 1) {
+      currentSlideIndex = 0;
+    }
+    updateBanner();
+  }
+});
